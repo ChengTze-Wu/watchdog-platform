@@ -4,11 +4,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import {
-  HiOutlineDevicePhoneMobile,
-  HiBellAlert,
-  HiWifi,
-} from "react-icons/hi2";
+import { HiOutlineDevicePhoneMobile, HiBellAlert } from "react-icons/hi2";
 import { FaShieldDog } from "react-icons/fa6";
 import { GoHomeFill } from "react-icons/go";
 
@@ -19,11 +15,6 @@ export const sidebarItems = [
     name: "首頁",
     href: "/platform",
     icon: GoHomeFill,
-  },
-  {
-    name: "線上裝置",
-    href: "/platform/online",
-    icon: HiWifi,
   },
   {
     name: "所有裝置",
@@ -44,8 +35,8 @@ export default function Sidebar({ className }: { className?: string }) {
       )}
     >
       <div className="text-lg flex items-center justify-start h-12 p-2">
-        <FaShieldDog className="mr-2 w-6 h-6" />
-        <span>吳家看門狗</span>
+        <FaShieldDog className="mr-2 w-8 h-8" />
+        <h1>吳家看門狗</h1>
       </div>
       <div className="flex flex-col gap-1 mt-16">
         {sidebarItems.map((item, index) => (
