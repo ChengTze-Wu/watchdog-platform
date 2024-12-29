@@ -56,6 +56,7 @@ export default function EditNicknameModal({ device }: { device: Device }) {
                 name="nickname"
                 label="認列名稱"
                 placeholder="請輸入認列名稱"
+                defaultValue={device.nickname}
                 variant="bordered"
               />
             </ModalBody>

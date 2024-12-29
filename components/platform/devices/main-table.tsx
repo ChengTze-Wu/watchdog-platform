@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, Key } from "react";
+import { useCallback, Key } from "react";
 
 import {
   Table,
@@ -9,7 +9,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  getKeyValue,
 } from "@nextui-org/react";
 
 import EditNicknameModal from "@/components/platform/devices/edit-nickname-modal";
