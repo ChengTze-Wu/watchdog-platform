@@ -30,7 +30,7 @@ export default function Sidebar({ className }: { className?: string }) {
   return (
     <div
       className={clsx(
-        "grid grid-rows-[auto,1fr,auto] w-64 p-4 border-r dark:border-zinc-700",
+        "grid grid-rows-[auto,1fr,auto] w-64 p-4 border-r dark:border-default-100",
         className
       )}
     >
@@ -38,13 +38,13 @@ export default function Sidebar({ className }: { className?: string }) {
         <FaShieldDog className="mr-2 w-8 h-8" />
         <h1>吳家看門狗</h1>
       </div>
-      <div className="flex flex-col gap-1 mt-16">
+      <div className="flex flex-col gap-1 mt-14">
         {sidebarItems.map((item, index) => (
           <Link
             key={index}
             href={item.href}
             className={clsx(
-              "w-full rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900",
+              "w-full rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors",
               item.href === pathname && "bg-zinc-200 dark:bg-zinc-800"
             )}
           >
