@@ -39,6 +39,8 @@ export default function EditNicknameModal({ device }: { device: Device }) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     startTransition(() => {
+      // NextUI 的 Form 使用 Native form, 因此 action 後會 reset.
+      // cf. https://github.com/nextui-org/nextui/issues/4300#issuecomment-2537018475
       formAction(formData);
     });
   };
