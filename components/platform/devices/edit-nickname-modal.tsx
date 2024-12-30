@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useTransition, FormEvent } from "react";
 
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import {
@@ -27,12 +27,21 @@ export default function EditNicknameModal({ device }: { device: Device }) {
     updateNickname,
     initialState
   );
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (state.message === "success") {
       onClose();
     }
   }, [state, onClose]);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    startTransition(() => {
+      formAction(formData);
+    });
+  };
 
   return (
     <>
@@ -41,7 +50,7 @@ export default function EditNicknameModal({ device }: { device: Device }) {
       </Button>
       <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
         <ModalContent>
-          <Form action={formAction}>
+          <Form onSubmit={handleSubmit} validationErrors={state.errors}>
             <ModalHeader>
               <h4 className="text-lg font-semibold flex items-center gap-2">
                 認列{" "}
@@ -53,6 +62,7 @@ export default function EditNicknameModal({ device }: { device: Device }) {
             <ModalBody className="w-full">
               <Input name="deviceId" type="hidden" value={device.id} />
               <Input
+                isClearable
                 name="nickname"
                 label="認列名稱"
                 placeholder="請輸入認列名稱"
@@ -65,8 +75,8 @@ export default function EditNicknameModal({ device }: { device: Device }) {
                 關閉
               </Button>
               <Button
-                isLoading={pending}
-                disabled={pending}
+                isLoading={pending || isPending}
+                disabled={pending || isPending}
                 type="submit"
                 size="sm"
               >

@@ -37,13 +37,9 @@ const updateNicknameSchema = z.object({
   deviceId: z.string().min(1, {
     message: "裝置 ID 不得為空",
   }),
-  nickname: z
-    .string({
-      invalid_type_error: "認列名稱必須為字串",
-    })
-    .min(1, {
-      message: "認列名稱不得為空",
-    }),
+  nickname: z.string().min(1, {
+    message: "認列名稱不得為空",
+  }),
 });
 
 export async function updateNickname(prevState: any, formData: FormData) {

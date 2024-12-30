@@ -21,7 +21,7 @@ export const sidebarItems = [
     href: "/platform/devices",
     icon: HiOutlineDevicePhoneMobile,
   },
-  { name: "警報器", href: "/platform/alerts", icon: HiBellAlert },
+  { name: "警報器", href: "/platform/senders", icon: HiBellAlert },
 ];
 
 export default function Sidebar({ className }: { className?: string }) {

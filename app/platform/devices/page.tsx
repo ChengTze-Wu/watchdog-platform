@@ -1,9 +1,9 @@
 import { getDevices } from "@/actions/devices";
 
-import MainTable from "@/components/platform/devices/main-table";
+import DevicesTable from "@/components/platform/devices/devices-table";
 
 export default async function Devices() {
   const devices = await getDevices();
 
-  return <MainTable devices={devices.data} />;
+  return <DevicesTable devices={devices.data} />;
 }

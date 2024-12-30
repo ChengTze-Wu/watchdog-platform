@@ -37,7 +37,7 @@ const columns = [
   },
 ];
 
-export default function MainTable({ devices }: { devices: Device[] }) {
+export default function DevicesTable({ devices }: { devices: Device[] }) {
   const renderCell = useCallback((device: Device, columnKey: Key) => {
     const cellValue = device[columnKey as keyof Device];
 
