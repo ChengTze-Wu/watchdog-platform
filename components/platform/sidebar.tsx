@@ -8,7 +8,7 @@ import { HiOutlineDevicePhoneMobile, HiBellAlert } from "react-icons/hi2";
 import { FaShieldDog } from "react-icons/fa6";
 import { GoHomeFill } from "react-icons/go";
 
-import ThemeSwitcher from "@/components/common/theme-switcher";
+import SettingModal from "@/components/platform/setting-modal";
 
 export const sidebarItems = [
   {
@@ -55,9 +55,7 @@ export default function Sidebar({ className }: { className?: string }) {
           </Link>
         ))}
       </div>
-      <div className="flex items-center justify-start">
-        <ThemeSwitcher />
-      </div>
+      <SettingModal />
     </div>
   );
 }
