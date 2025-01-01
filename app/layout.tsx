@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Providers } from "@/app/providers";
+import { AlertProvider } from "@/components/common/flash-alert";
 import "@/app/globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="zh-Hans" className="dark">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <AlertProvider>{children}</AlertProvider>
+        </Providers>
       </body>
     </html>
   );
