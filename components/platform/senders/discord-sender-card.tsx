@@ -18,7 +18,7 @@ export default function DiscordSenderCard() {
   const handleSender = async () => {};
 
   return (
-    <Card shadow="sm">
+    <Card shadow="sm" isDisabled>
       <CardHeader>
         <FaDiscord className="w-10 h-10" color="#7289da" />
         <Spacer x={2} />
@@ -27,6 +27,7 @@ export default function DiscordSenderCard() {
       </CardHeader>
       <CardBody>
         <Button
+          isDisabled
           isIconOnly
           variant="ghost"
           className="w-full h-40 border-dashed border-1"

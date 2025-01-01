@@ -35,7 +35,7 @@ export default function LineSenderCard() {
   }, []);
 
   const handleLineSender = async () => {
-    if (quota === null || quota >= 5) {
+    if (quota === null || quota >= 10) {
       showAlert({
         title: "警告",
         description: "本月配額已使用完畢，請聯絡系統管理員",
@@ -43,11 +43,6 @@ export default function LineSenderCard() {
         variant: "faded",
       });
       return;
-    }
-    try {
-      await broadcastLine(ACCESS_TOKEN, "Hello, world from 吳家看門狗");
-    } catch (error) {
-      console.error(error);
     }
     setQuota((prev) => (prev === null ? 1 : prev + 1));
   };

@@ -18,7 +18,7 @@ export default function SlackSenderCard() {
   const handleSender = async () => {};
 
   return (
-    <Card shadow="sm">
+    <Card shadow="sm" isDisabled>
       <CardHeader>
         <FaSlack className="w-10 h-10" />
         <Spacer x={2} />
@@ -27,6 +27,7 @@ export default function SlackSenderCard() {
       </CardHeader>
       <CardBody>
         <Button
+          isDisabled
           isIconOnly
           variant="ghost"
           className="w-full h-40 border-dashed border-1"
