@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useActionState, startTransition } from "react";
-
 import {
   Card,
   CardHeader,
@@ -10,44 +8,11 @@ import {
   Button,
   Spacer,
 } from "@nextui-org/react";
-import { FaPlus, FaLine } from "react-icons/fa6";
+import { FaLine } from "react-icons/fa6";
 
-import { broadcastLine } from "@/actions/senders";
-import { useAlert } from "@/components/common/flash-alert";
-
-const initialState = {
-  message: "",
-};
+import CreateSenderModal from "@/components/platform/senders/create-sender-modal";
 
 export default function LineSenderCard() {
-  const { showAlert } = useAlert();
-
-  const [state, broadcasAction, pending] = useActionState(
-    broadcastLine,
-    initialState
-  );
-
-  const handleLineSender = () => {
-    startTransition(() => {
-      broadcasAction("Hello");
-    });
-  };
-
-  useEffect(() => {
-    // 如何處裡 toast with useActionState
-    // cf. https://github.com/shadcn-ui/ui/discussions/5332#discussioncomment-11113046
-    if (pending || !state) {
-      return;
-    }
-    if (state?.message) {
-      showAlert({
-        title: "警告",
-        description: state.message,
-        color: "danger",
-      });
-    }
-  }, [state, pending]);
-
   return (
     <Card shadow="sm">
       <CardHeader>
@@ -57,14 +22,7 @@ export default function LineSenderCard() {
         <Spacer />
       </CardHeader>
       <CardBody>
-        <Button
-          isIconOnly
-          variant="ghost"
-          className="w-full h-40 border-dashed border-1"
-          onPress={handleLineSender}
-        >
-          <FaPlus />
-        </Button>
+        <CreateSenderModal />
       </CardBody>
       <CardFooter></CardFooter>
     </Card>

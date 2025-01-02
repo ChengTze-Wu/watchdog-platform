@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useTransition, FormEvent } from "react";
 
-import { HiMiniPencilSquare } from "react-icons/hi2";
+import { FaPlus, FaLine } from "react-icons/fa6";
 import {
   Modal,
   ModalContent,
@@ -13,13 +13,11 @@ import {
   useDisclosure,
   Input,
   Form,
-  Chip,
 } from "@nextui-org/react";
 
-import { Device } from "@/models/devices";
 import { updateNickname } from "@/actions/devices";
 
-export default function EditNicknameModal({ device }: { device: Device }) {
+export default function CreateSenderModal() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const initialState = { message: "" };
@@ -47,28 +45,28 @@ export default function EditNicknameModal({ device }: { device: Device }) {
 
   return (
     <>
-      <Button isIconOnly aria-label="edit" onPress={onOpen} size="sm">
-        <HiMiniPencilSquare />
+      <Button
+        variant="ghost"
+        className="w-full h-40 border-dashed border-1"
+        isIconOnly
+        aria-label="edit"
+        onPress={onOpen}
+      >
+        <FaPlus />
       </Button>
-      <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} placement="center" onOpenChange={onOpenChange}>
         <ModalContent>
           <Form onSubmit={handleSubmit} validationErrors={state.errors}>
             <ModalHeader>
-              <h4 className="text-lg font-semibold flex items-center gap-2">
-                認列{" "}
-                <Chip color="default" size="sm">
-                  {device.mac_address}
-                </Chip>
-              </h4>
+              <FaLine className="w-10 h-10" color="#00c300" />
             </ModalHeader>
             <ModalBody className="w-full">
-              <Input name="deviceId" type="hidden" value={device.id} />
+              <Input isClearable isRequired name="name" label="識別名稱" />
               <Input
                 isClearable
-                name="nickname"
-                label="認列名稱"
-                placeholder="請輸入認列名稱"
-                defaultValue={device.nickname}
+                isRequired
+                name="accessToken"
+                label="Channel Access Token"
               />
             </ModalBody>
             <ModalFooter className="w-full">
