@@ -85,7 +85,7 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({
             alert.id === id ? { ...alert, isEntering: false } : alert
           )
         );
-      }, 50);
+      }, 15);
     },
     []
   );
