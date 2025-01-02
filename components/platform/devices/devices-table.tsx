@@ -43,13 +43,7 @@ export default function DevicesTable({ devices }: { devices: Device[] }) {
 
     switch (columnKey) {
       case "actions":
-        return (
-          <div className="relative flex items-center gap-4">
-            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-              <EditNicknameModal device={device} />
-            </span>
-          </div>
-        );
+        return <EditNicknameModal device={device} />;
       default:
         return cellValue;
     }

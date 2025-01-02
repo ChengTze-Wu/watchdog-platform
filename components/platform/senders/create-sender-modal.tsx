@@ -70,10 +70,11 @@ export default function CreateSenderModal() {
               />
             </ModalBody>
             <ModalFooter className="w-full">
-              <Button onPress={onClose} variant="flat" size="sm">
+              <Button onPress={onClose} size="sm">
                 關閉
               </Button>
               <Button
+                color="primary"
                 isLoading={pending || isPending}
                 disabled={pending || isPending}
                 type="submit"

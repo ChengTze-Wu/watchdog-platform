@@ -19,7 +19,7 @@ export default function ThemeSwitcher() {
   return (
     <Switch
       aria-label="Toggle theme"
-      color="default"
+      color="primary"
       defaultSelected={theme === "dark"}
       onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
       thumbIcon={theme === "light" ? <HiOutlineSun /> : <HiOutlineMoon />}

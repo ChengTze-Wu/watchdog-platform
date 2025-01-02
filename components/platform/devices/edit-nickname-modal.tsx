@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useTransition, FormEvent } from "react";
 
-import { HiMiniPencilSquare } from "react-icons/hi2";
+import { FaIdCard } from "react-icons/fa";
 import {
   Modal,
   ModalContent,
@@ -14,6 +14,7 @@ import {
   Input,
   Form,
   Chip,
+  Tooltip,
 } from "@nextui-org/react";
 
 import { Device } from "@/models/devices";
@@ -47,9 +48,17 @@ export default function EditNicknameModal({ device }: { device: Device }) {
 
   return (
     <>
-      <Button isIconOnly aria-label="edit" onPress={onOpen} size="sm">
-        <HiMiniPencilSquare />
-      </Button>
+      <Tooltip
+        color="foreground"
+        content="認列"
+        placement="right"
+        delay={300}
+        closeDelay={0}
+      >
+        <Button isIconOnly aria-label="edit" onPress={onOpen} size="sm">
+          <FaIdCard />
+        </Button>
+      </Tooltip>
       <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
         <ModalContent>
           <Form onSubmit={handleSubmit} validationErrors={state.errors}>
@@ -65,17 +74,18 @@ export default function EditNicknameModal({ device }: { device: Device }) {
               <Input name="deviceId" type="hidden" value={device.id} />
               <Input
                 isClearable
+                isRequired
                 name="nickname"
                 label="認列名稱"
-                placeholder="請輸入認列名稱"
                 defaultValue={device.nickname}
               />
             </ModalBody>
             <ModalFooter className="w-full">
-              <Button onPress={onClose} variant="flat" size="sm">
+              <Button onPress={onClose} size="sm">
                 關閉
               </Button>
               <Button
+                color="primary"
                 isLoading={pending || isPending}
                 disabled={pending || isPending}
                 type="submit"
