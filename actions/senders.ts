@@ -10,7 +10,6 @@ export async function broadcastLine(prevState: any, message: string) {
   const quota = await getLineQuota(ACCESS_TOKEN);
   if (quota >= 5) {
     return {
-      accessToken: prevState.accessToken,
       message: "本月配額已使用完畢，請聯絡系統管理員",
     };
   }
