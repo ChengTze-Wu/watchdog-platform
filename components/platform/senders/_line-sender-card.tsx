@@ -36,17 +36,20 @@ export default function LineSenderCard() {
   useEffect(() => {
     // 如何處裡 toast with useActionState
     // cf. https://github.com/shadcn-ui/ui/discussions/5332#discussioncomment-11113046
-    if (pending || !state) {
-      return;
-    }
-    if (state?.message) {
-      showAlert({
-        title: "警告",
-        description: state.message,
-        color: "danger",
-      });
-    }
-  }, [state, pending]);
+    const handleAlert = () => {
+      if (pending || !state) {
+        return;
+      }
+      if (state?.message) {
+        showAlert({
+          title: "警告",
+          description: state.message,
+          color: "danger",
+        });
+      }
+    };
+    handleAlert();
+  }, [state, pending, showAlert]);
 
   return (
     <Card shadow="sm">
