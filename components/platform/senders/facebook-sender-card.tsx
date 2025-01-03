@@ -10,11 +10,7 @@ import {
 } from "@nextui-org/react";
 import { FaPlus, FaFacebookMessenger } from "react-icons/fa6";
 
-import { useAlert } from "@/components/common/flash-alert";
-
 export default function FacebookSenderCard() {
-  const { showAlert } = useAlert();
-
   const handleSender = async () => {};
 
   return (

@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Button,
   Spacer,
 } from "@nextui-org/react";
 import { FaLine } from "react-icons/fa6";
