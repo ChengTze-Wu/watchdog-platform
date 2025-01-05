@@ -6,12 +6,15 @@ import {
   CardBody,
   CardFooter,
   Spacer,
+  Chip,
+  Divider,
 } from "@nextui-org/react";
 import { FaLine } from "react-icons/fa6";
 
+import { Sender } from "@/models/senders";
 import CreateSenderModal from "@/components/platform/senders/create-sender-modal";
 
-export default function LineSenderCard() {
+export default function LineSenderCard({ sender }: { sender?: Sender }) {
   return (
     <Card shadow="sm">
       <CardHeader>
@@ -21,7 +24,12 @@ export default function LineSenderCard() {
         <Spacer />
       </CardHeader>
       <CardBody>
-        <CreateSenderModal />
+        <div className="flex items-center justify-between">
+          <p className="text-lg font-bold">{sender?.name || "未設定"}</p>
+          <Chip color={sender?.verified ? "success" : "default"}>
+            {sender?.verified ? "已驗證" : "未驗證"}
+          </Chip>
+        </div>
       </CardBody>
       <CardFooter></CardFooter>
     </Card>

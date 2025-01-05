@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useTransition, FormEvent } from "react";
+import { FormEvent, startTransition, useActionState, useEffect } from "react";
 
 import { FaPlus, FaLine } from "react-icons/fa6";
 import {
@@ -15,17 +15,16 @@ import {
   Form,
 } from "@nextui-org/react";
 
-import { updateNickname } from "@/actions/devices";
+import { createSender } from "@/actions/senders";
 
 export default function CreateSenderModal() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const initialState = { message: "" };
   const [state, formAction, pending] = useActionState(
-    updateNickname,
+    createSender,
     initialState
   );
-  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (state.message === "success") {
@@ -37,8 +36,6 @@ export default function CreateSenderModal() {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     startTransition(() => {
-      // NextUI 的 Form 使用 Native form, 因此 action 後會 reset.
-      // cf. https://github.com/nextui-org/nextui/issues/4300#issuecomment-2537018475
       formAction(formData);
     });
   };
@@ -75,10 +72,9 @@ export default function CreateSenderModal() {
               </Button>
               <Button
                 color="primary"
-                isLoading={pending || isPending}
-                disabled={pending || isPending}
                 type="submit"
                 size="sm"
+                isLoading={pending}
               >
                 儲存
               </Button>

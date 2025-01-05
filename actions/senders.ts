@@ -1,50 +1,72 @@
 "use server";
 
-const ACCESS_TOKEN = process.env.LINE_ACCESS_TOKEN as string;
+import { z } from "zod";
+import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
 
-if (!ACCESS_TOKEN) {
-  throw new Error("Missing LINE_ACCESS TOKEN");
-}
+const WatchDogApiHost =
+  process.env.WATCHDOG_API_HOST || "http://localhost:8000";
 
-export async function broadcastLine(prevState: any, message: string) {
-  const quota = await getLineQuota(ACCESS_TOKEN);
-  if (quota >= 5) {
+const createSenderSchema = z.object({
+  name: z.string().min(1, {
+    message: "識別名稱不得為空",
+  }),
+  accessToken: z.string().min(1, {
+    message: "Access Token 不得為空",
+  }),
+});
+
+export async function createSender(prevState: any, formData: FormData) {
+  const validatedFields = createSenderSchema.safeParse({
+    name: formData.get("name"),
+    accessToken: formData.get("accessToken"),
+  });
+
+  if (!validatedFields.success) {
     return {
-      message: "本月配額已使用完畢，請聯絡系統管理員",
+      errors: validatedFields.error.flatten().fieldErrors,
     };
   }
 
-  const res = await fetch("https://api.line.me/v2/bot/message/broadcast", {
+  const { name, accessToken } = validatedFields.data;
+
+  const response = await fetch(`${WatchDogApiHost}/senders/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
     body: JSON.stringify({
-      messages: [{ type: "text", text: message }],
+      name,
+      access_token: accessToken,
     }),
   });
 
-  if (!res.ok) {
-    return { message: "Failed to broadcast message" };
+  const jsonResponse = await response.json();
+
+  if (!response.ok) {
+    return {
+      message: jsonResponse.message,
+    };
   }
+
+  revalidatePath("/platform/senders");
+
+  return {
+    message: "success",
+  };
 }
 
-export async function getLineQuota(accessToken: string) {
-  const res = await fetch(
-    "https://api.line.me/v2/bot/message/quota/consumption",
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+export async function getSenders() {
+  const response = await fetch(`${WatchDogApiHost}/senders/`);
+  const jsonResponse = await response.json();
 
-  if (!res.ok) {
-    throw new Error("Failed to get line quota");
+  if (response.status === 404) {
+    notFound();
   }
 
-  const data = await res.json();
-  const quota = data.totalUsage as number;
-  return quota;
+  if (!response.ok) {
+    throw new Error(jsonResponse.message);
+  }
+
+  return jsonResponse;
 }
