@@ -51,7 +51,7 @@ export default function DevicesTable({
   const devices = dataWithPagination.data;
   const totalItems = dataWithPagination.pagination.totalItems;
   const totalPages = dataWithPagination.pagination.totalPages;
-  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   const setPage = (page: number) => {
     const params = new URLSearchParams(searchParams);
