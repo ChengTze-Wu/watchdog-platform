@@ -8,6 +8,15 @@ export interface Device {
   vendor: string;
 }
 
+export interface DeviceResponse {
+  data: Device[] | [];
+  pagination: {
+    totalItems: number;
+    totalPages: number;
+    nextPage: number | null;
+  };
+}
+
 export interface ConnectedDevice {
   device: Device;
   connection_type: string;

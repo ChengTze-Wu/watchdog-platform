@@ -4,22 +4,21 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
 
-import { Device } from "@/models/devices";
+import { DeviceResponse } from "@/models/devices";
 
 const WatchDogApiHost =
   process.env.WATCHDOG_API_HOST || "http://localhost:8000";
 
-interface DeviceResponse {
-  data: Device[] | [];
-  pagination: {
-    totalItems: number | null;
-    totalPages: number | null;
-    nextPage: number | null;
-  };
-}
-
-export async function getDevices(): Promise<DeviceResponse> {
-  const response = await fetch(`${WatchDogApiHost}/devices/`);
+export async function getDevices({
+  page = "1",
+  limit = "10",
+}: {
+  page?: string;
+  limit?: string;
+}): Promise<DeviceResponse> {
+  const response = await fetch(
+    `${WatchDogApiHost}/devices/?page=${page}&limit=${limit}`
+  );
   const jsonResponse = await response.json();
 
   if (response.status === 404) {

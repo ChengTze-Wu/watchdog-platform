@@ -2,8 +2,18 @@ import { getDevices } from "@/actions/devices";
 
 import DevicesTable from "@/components/platform/devices/devices-table";
 
-export default async function Devices() {
-  const devices = await getDevices();
+export default async function Devices(props: {
+  searchParams?: Promise<{
+    page?: string;
+    limit?: string;
+  }>;
+}) {
+  const { page, limit } = (await props.searchParams) || {};
 
-  return <DevicesTable devices={devices.data} />;
+  const dataWithPagination = await getDevices({
+    page,
+    limit,
+  });
+
+  return <DevicesTable dataWithPagination={dataWithPagination} />;
 }
