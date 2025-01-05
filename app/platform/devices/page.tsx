@@ -1,4 +1,5 @@
 import { getDevices } from "@/actions/devices";
+import { getSenders } from "@/actions/senders";
 
 import DevicesTable from "@/components/platform/devices/devices-table";
 
@@ -10,10 +11,17 @@ export default async function Devices(props: {
 }) {
   const { page, limit } = (await props.searchParams) || {};
 
-  const dataWithPagination = await getDevices({
-    page,
-    limit,
-  });
+  const devicesData = getDevices({ page, limit });
 
-  return <DevicesTable dataWithPagination={dataWithPagination} />;
+  const [devicesWithPagination, senders] = await Promise.all([
+    devicesData,
+    getSenders(),
+  ]);
+
+  return (
+    <DevicesTable
+      devicesWithPagination={devicesWithPagination}
+      senders={senders.data}
+    />
+  );
 }
