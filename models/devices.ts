@@ -6,6 +6,7 @@ export interface Device {
   nickname: string;
   mac_address: string;
   vendor: string;
+  senders: UUID[];
 }
 
 export interface DeviceResponse {
