@@ -119,13 +119,13 @@ export default function DevicesTable({
 
     const alertConfig: any = {
       success: {
-        title: "緊戒",
-        description: "警報器已設定",
+        title: "警戒",
+        description: "警報器設定成功",
         color: "success",
       },
       dismiss: {
-        title: "解除緊戒",
-        description: "警報器已解除",
+        title: "解除警戒",
+        description: "警報器解除成功",
         color: "default",
       },
       default: {

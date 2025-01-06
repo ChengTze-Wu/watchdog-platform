@@ -8,6 +8,8 @@ import {
   Spacer,
   Chip,
   Divider,
+  Switch,
+  Button,
 } from "@nextui-org/react";
 import { FaLine } from "react-icons/fa6";
 
@@ -24,14 +26,43 @@ export default function LineSenderCard({ sender }: { sender?: Sender }) {
         <Spacer />
       </CardHeader>
       <CardBody>
-        <div className="flex items-center justify-between">
-          <p className="text-lg font-bold">{sender?.name || "未設定"}</p>
-          <Chip color={sender?.verified ? "success" : "default"}>
-            {sender?.verified ? "已驗證" : "未驗證"}
-          </Chip>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <p className="text-lg font-bold">{sender?.name || "未設定"}</p>
+            <Chip
+              color={sender?.verified ? "success" : "default"}
+              size="sm"
+              variant="faded"
+            >
+              {sender?.verified ? "已驗證" : "未驗證"}
+            </Chip>
+          </div>
+          <Switch
+            color="success"
+            defaultSelected
+            isDisabled
+            startContent={<span>開</span>}
+            endContent={<span>關</span>}
+          />
+        </div>
+        <Divider className="my-2" />
+        <div className="flex flex-col gap-2">
+          <p className="text-sm text-default-500">
+            上線認定時長<span className="text-default-900">: 5 分鐘</span>
+          </p>
+          <p className="text-sm text-default-500">
+            離線認定時長<span className="text-default-900">: 5 分鐘</span>
+          </p>
+          <p className="text-sm text-default-500">每月發送上限: 200 次</p>
         </div>
       </CardBody>
-      <CardFooter></CardFooter>
+      <CardFooter>
+        <div className="flex justify-between items-center">
+          <Button size="sm" color="success" variant="flat" isDisabled>
+            驗證
+          </Button>
+        </div>
+      </CardFooter>
     </Card>
   );
 }
