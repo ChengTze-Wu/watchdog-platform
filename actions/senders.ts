@@ -70,3 +70,44 @@ export async function getSenders() {
 
   return jsonResponse;
 }
+
+const verifySenderSchema = z.object({
+  senderId: z.string().min(1, {
+    message: "Sender ID 不得為空",
+  }),
+});
+
+export async function verifySender(prevState: any, formData: FormData) {
+  const validatedFields = verifySenderSchema.safeParse({
+    senderId: formData.get("senderId"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const { senderId } = validatedFields.data;
+
+  const response = await fetch(
+    `${WatchDogApiHost}/senders/${senderId}/verify/`,
+    {
+      method: "POST",
+    }
+  );
+
+  const jsonResponse = await response.json();
+
+  if (!response.ok) {
+    return {
+      message: jsonResponse.message,
+    };
+  }
+
+  revalidatePath("/platform/senders");
+
+  return {
+    message: "success",
+  };
+}
