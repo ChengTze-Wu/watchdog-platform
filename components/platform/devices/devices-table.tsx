@@ -20,8 +20,8 @@ import {
   Select,
   SelectItem,
   Chip,
-} from "@nextui-org/react";
-import type { SelectedItems } from "@nextui-org/react";
+} from "@heroui/react";
+import type { SelectedItems } from "@heroui/react";
 
 import { setAlert } from "@/actions/devices";
 import EditNicknameModal from "@/components/platform/devices/edit-nickname-modal";

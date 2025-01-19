@@ -8,7 +8,7 @@ import React, {
   useEffect,
 } from "react";
 
-import { Alert } from "@nextui-org/react";
+import { Alert } from "@heroui/react";
 
 type ColorType =
   | "default"

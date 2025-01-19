@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
+import { Breadcrumbs, BreadcrumbItem } from "@heroui/react";
 
 import { sidebarItems } from "@/components/platform/sidebar";
 

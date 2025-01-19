@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
-import { Switch } from "@nextui-org/react";
+import { Switch } from "@heroui/react";
 
 export default function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false);
