@@ -8,7 +8,7 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { IoIosSettings } from "react-icons/io";
 import ThemeSwitcher from "@/components/common/theme-switcher";
 

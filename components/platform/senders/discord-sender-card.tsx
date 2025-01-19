@@ -7,7 +7,7 @@ import {
   CardFooter,
   Button,
   Spacer,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { FaPlus, FaDiscord } from "react-icons/fa6";
 
 export default function DiscordSenderCard() {

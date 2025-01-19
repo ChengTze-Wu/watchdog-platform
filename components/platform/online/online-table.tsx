@@ -8,7 +8,7 @@ import {
   TableRow,
   TableCell,
   getKeyValue,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { ConnectedDevice } from "@/models/devices";
 

@@ -12,7 +12,7 @@ import {
   Divider,
   Switch,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { FaLine } from "react-icons/fa6";
 
 import { Sender } from "@/models/senders";

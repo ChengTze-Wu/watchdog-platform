@@ -15,7 +15,7 @@ import {
   Form,
   Chip,
   Tooltip,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { Device } from "@/models/devices";
 import { updateNickname } from "@/actions/devices";

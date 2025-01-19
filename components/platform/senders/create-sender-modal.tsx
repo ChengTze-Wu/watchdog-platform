@@ -13,7 +13,7 @@ import {
   useDisclosure,
   Input,
   Form,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { createSender } from "@/actions/senders";
 
