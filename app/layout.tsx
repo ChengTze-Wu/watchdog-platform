@@ -1,3 +1,6 @@
+import { ClerkProvider } from "@clerk/nextjs";
+import { zhTW } from "@clerk/localizations";
+import { dark } from "@clerk/themes";
 import type { Metadata } from "next";
 
 import { Providers } from "@/app/providers";
@@ -15,12 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-Hans" className="dark">
-      <body>
-        <Providers>
-          <AlertProvider>{children}</AlertProvider>
-        </Providers>
-      </body>
-    </html>
+    <ClerkProvider
+      localization={zhTW}
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
+      <html lang="zh-Hans" className="dark">
+        <body>
+          <Providers>
+            <AlertProvider>{children}</AlertProvider>
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
