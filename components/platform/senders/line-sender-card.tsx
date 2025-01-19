@@ -76,8 +76,7 @@ export default function LineSenderCard({ sender }: { sender?: Sender }) {
           </div>
           <Button
             size="sm"
-            color="default"
-            variant="flat"
+            variant="light"
             onPress={() => setLockEdit(!lockEdit)}
             isIconOnly
           >
