@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, startTransition } from "react";
+import { useActionState, useEffect, startTransition, useState } from "react";
 
 import {
   Card,
@@ -10,10 +10,10 @@ import {
   Spacer,
   Chip,
   Divider,
-  Switch,
   Button,
+  Input,
 } from "@heroui/react";
-import { FaLine } from "react-icons/fa6";
+import { FaLine, FaLock, FaLockOpen } from "react-icons/fa6";
 
 import { Sender } from "@/models/senders";
 import { verifySender } from "@/actions/senders";
@@ -22,6 +22,8 @@ import { useAlert } from "@/components/common/flash-alert";
 
 export default function LineSenderCard({ sender }: { sender?: Sender }) {
   const { showAlert } = useAlert();
+
+  const [lockEdit, setLockEdit] = useState(true);
 
   const initialState = { message: "" };
   const [state, formAction, pending] = useActionState(
@@ -72,23 +74,42 @@ export default function LineSenderCard({ sender }: { sender?: Sender }) {
               {sender?.verified ? "已驗證" : "未驗證"}
             </Chip>
           </div>
-          <Switch
-            color="success"
-            defaultSelected
-            isDisabled
-            startContent={<span>開</span>}
-            endContent={<span>關</span>}
-          />
+          <Button
+            size="sm"
+            color="default"
+            variant="flat"
+            onPress={() => setLockEdit(!lockEdit)}
+            isIconOnly
+          >
+            {lockEdit ? <FaLock /> : <FaLockOpen />}
+          </Button>
         </div>
         <Divider className="my-2" />
         <div className="flex flex-col gap-2">
-          <p className="text-sm text-default-500">
-            上線認定時長<span className="text-default-900">: 5 分鐘</span>
-          </p>
-          <p className="text-sm text-default-500">
-            離線認定時長<span className="text-default-900">: 5 分鐘</span>
-          </p>
-          <p className="text-sm text-default-500">每月發送上限: 200 次</p>
+          <Input
+            label="上線認定時長"
+            type="text"
+            size="sm"
+            defaultValue="5"
+            isDisabled={lockEdit}
+            radius="md"
+          />
+          <Input
+            label="離線認定時長"
+            type="text"
+            size="sm"
+            defaultValue="5"
+            isDisabled={lockEdit}
+            radius="md"
+          />
+          <Input
+            label="每月發送上限"
+            type="text"
+            size="sm"
+            defaultValue="200"
+            isDisabled={lockEdit}
+            radius="md"
+          />
         </div>
       </>
     );
@@ -103,7 +124,7 @@ export default function LineSenderCard({ sender }: { sender?: Sender }) {
         <Spacer />
       </CardHeader>
       <CardBody>{sender ? <SenderContent /> : <CreateSenderModal />}</CardBody>
-      <CardFooter>
+      <CardFooter className="flex justify-between">
         <Button
           size="sm"
           color="success"
@@ -114,6 +135,11 @@ export default function LineSenderCard({ sender }: { sender?: Sender }) {
         >
           驗證
         </Button>
+        {!lockEdit && (
+          <Button size="sm" variant="flat">
+            儲存
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
