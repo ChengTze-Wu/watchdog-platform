@@ -6,4 +6,7 @@ export interface Sender {
   access_token: string;
   target: string;
   verified: boolean;
+  online_threshold: number;
+  offline_threshold: number;
+  quota: number;
 }

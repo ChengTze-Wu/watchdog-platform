@@ -27,3 +27,8 @@ export interface ConnectedDevice {
   tx_speed: number;
   last_connected_at: string;
 }
+
+export interface DisconnectedDevice {
+  device: Device;
+  created_at: string;
+}
