@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Table,
   TableHeader,
@@ -7,10 +6,10 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  getKeyValue,
 } from "@heroui/react";
 
 import { ConnectedDevice } from "@/models/devices";
+import { getNestedKeyValue } from "@/utils/objects";
 
 const columns = [
   {
@@ -53,7 +52,11 @@ export default function OnlineTable({
   connectedDevice: ConnectedDevice[];
 }) {
   return (
-    <Table aria-label="Table with dynamic connected devices">
+    <Table
+      topContent={<span className="text-default-400 text-small">線上裝置</span>}
+      topContentPlacement="outside"
+      aria-label="Table with dynamic connected devices"
+    >
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
@@ -61,7 +64,7 @@ export default function OnlineTable({
         {(item) => (
           <TableRow key={item.device.id}>
             {(columnKey) => (
-              <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+              <TableCell>{getNestedKeyValue(item, columnKey)}</TableCell>
             )}
           </TableRow>
         )}
