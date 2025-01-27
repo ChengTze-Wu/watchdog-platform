@@ -10,7 +10,7 @@ export default async function Senders() {
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      <LineSenderCard sender={senders?.data[0]} />
+      <LineSenderCard senders={senders.data} />
       <SlackSenderCard />
       <DiscordSenderCard />
       <FacebookSenderCard />

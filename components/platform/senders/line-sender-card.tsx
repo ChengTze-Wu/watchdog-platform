@@ -30,7 +30,8 @@ interface AlertConfigs {
   [key: string]: AlertConfig;
 }
 
-export default function LineSenderCard({ sender }: { sender?: Sender }) {
+export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
+  const sender = senders?.[0];
   const { showAlert } = useAlert();
 
   const [lockEdit, setLockEdit] = useState(true);
