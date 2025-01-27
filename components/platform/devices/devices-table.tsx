@@ -29,6 +29,16 @@ import { Device, DeviceResponse } from "@/models/devices";
 import { Sender } from "@/models/senders";
 import { useAlert } from "@/components/common/flash-alert";
 
+interface AlertConfig {
+  title: string;
+  description: string;
+  color: "success" | "default" | "danger";
+}
+
+interface AlertConfigs {
+  [key: string]: AlertConfig;
+}
+
 const columns = [
   {
     key: "nickname",
@@ -117,7 +127,7 @@ export default function DevicesTable({
   useEffect(() => {
     if (pending || !state?.message) return;
 
-    const alertConfig: any = {
+    const alertConfig: AlertConfigs = {
       success: {
         title: "警戒",
         description: "警報器設定成功",
