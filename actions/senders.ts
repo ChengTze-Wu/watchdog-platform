@@ -56,6 +56,65 @@ export async function createSender(prevState: any, formData: FormData) {
   };
 }
 
+const updateSenderSchema = z.object({
+  senderId: z.string().min(1, {
+    message: "Sender ID 不得為空",
+  }),
+  onlineThreshold: z.number().int().min(1, {
+    message: "上線閥值不得小於 1",
+  }),
+  offlineThreshold: z.number().int().min(1, {
+    message: "離線閥值不得小於 1",
+  }),
+  quota: z.number().int().min(1, {
+    message: "可用配額不得小於 1",
+  }),
+});
+
+export async function updateSender(prevState: any, formData: FormData) {
+  const validatedFields = updateSenderSchema.safeParse({
+    senderId: formData.get("senderId"),
+    onlineThreshold: Number(formData.get("onlineThreshold")),
+    offlineThreshold: Number(formData.get("offlineThreshold")),
+    quota: Number(formData.get("quota")),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const { senderId, onlineThreshold, offlineThreshold, quota } =
+    validatedFields.data;
+
+  const response = await fetch(`${WatchDogApiHost}/senders/${senderId}/`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      online_threshold: onlineThreshold,
+      offline_threshold: offlineThreshold,
+      quota,
+    }),
+  });
+
+  const jsonResponse = await response.json();
+
+  if (!response.ok) {
+    return {
+      message: jsonResponse.message,
+    };
+  }
+
+  revalidatePath("/platform/senders");
+
+  return {
+    message: "success",
+  };
+}
+
 export async function getSenders() {
   const response = await fetch(`${WatchDogApiHost}/senders/`);
   const jsonResponse = await response.json();
