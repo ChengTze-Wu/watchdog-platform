@@ -34,7 +34,9 @@ export default function OfflineTable({
   return (
     <Table
       topContent={
-        <span className="text-default-400 text-small mt-4">離線裝置</span>
+        <span className="text-default-400 text-small mt-4">
+          24小時內離線裝置
+        </span>
       }
       topContentPlacement="outside"
       aria-label="Table with dynamic connected devices"
