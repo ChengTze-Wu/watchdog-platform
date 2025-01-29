@@ -12,7 +12,7 @@ export default function PlatformLayout({
     <div className="flex">
       <Sidebar className="fixed inset-y-0 left-0 shadow-sm" />
       <div className="flex-1 px-4 flex flex-col min-h-screen ml-64 overflow-hidden">
-        <nav className="flex items-center justify-between my-4">
+        <nav className="flex items-center justify-between py-6">
           <PlatformBreadcrumbs />
           <SignedIn>
             <UserButton />
