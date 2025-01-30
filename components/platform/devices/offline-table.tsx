@@ -32,27 +32,29 @@ export default function OfflineTable({
   disconnectedDevice: DisconnectedDevice[];
 }) {
   return (
-    <Table
-      topContent={
-        <span className="text-default-400 text-small mt-4">
-          24小時內離線裝置
-        </span>
-      }
-      topContentPlacement="outside"
-      aria-label="Table with dynamic connected devices"
-    >
-      <TableHeader columns={columns}>
-        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-      </TableHeader>
-      <TableBody items={disconnectedDevice}>
-        {(item) => (
-          <TableRow key={item.device.id}>
-            {(columnKey) => (
-              <TableCell>{getNestedKeyValue(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Table
+        topContent={
+          <span className="text-default-400 text-small">24小時內離線裝置</span>
+        }
+        topContentPlacement="outside"
+        aria-label="Table with dynamic connected devices"
+      >
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn key={column.key}>{column.label}</TableColumn>
+          )}
+        </TableHeader>
+        <TableBody items={disconnectedDevice}>
+          {(item) => (
+            <TableRow key={item.device.id}>
+              {(columnKey) => (
+                <TableCell>{getNestedKeyValue(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 }
