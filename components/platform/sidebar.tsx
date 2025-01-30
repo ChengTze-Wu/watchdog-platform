@@ -4,9 +4,11 @@ import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { HiOutlineDevicePhoneMobile, HiBellAlert } from "react-icons/hi2";
+import { Chip, Spacer } from "@heroui/react";
+import { HiBellAlert, HiOutlineBellAlert } from "react-icons/hi2";
+import { IoPhonePortraitOutline, IoPhonePortrait } from "react-icons/io5";
 import { FaShieldDog } from "react-icons/fa6";
-import { GoHomeFill } from "react-icons/go";
+import { GoHomeFill, GoHome } from "react-icons/go";
 
 import SettingModal from "@/components/platform/setting-modal";
 
@@ -14,14 +16,21 @@ export const sidebarItems = [
   {
     name: "首頁",
     href: "/platform",
-    icon: GoHomeFill,
+    icon: GoHome,
+    choosenIcon: GoHomeFill,
   },
   {
     name: "所有裝置",
     href: "/platform/devices",
-    icon: HiOutlineDevicePhoneMobile,
+    icon: IoPhonePortraitOutline,
+    choosenIcon: IoPhonePortrait,
   },
-  { name: "警報器", href: "/platform/senders", icon: HiBellAlert },
+  {
+    name: "警報器",
+    href: "/platform/senders",
+    icon: HiOutlineBellAlert,
+    choosenIcon: HiBellAlert,
+  },
 ];
 
 export default function Sidebar({ className }: { className?: string }) {
@@ -34,11 +43,16 @@ export default function Sidebar({ className }: { className?: string }) {
         className
       )}
     >
-      <div className="text-lg flex items-center justify-start h-12 p-2">
-        <FaShieldDog className="mr-2 w-8 h-8" />
+      <div className="text-lg flex items-center justify-start h-12 p-2 mb-16">
+        <FaShieldDog className="w-8 h-8" />
+        <Spacer />
         <h1>吳家看門狗</h1>
+        <Spacer />
+        <Chip size="sm" variant="dot" color="secondary">
+          v0.1.0
+        </Chip>
       </div>
-      <div className="flex flex-col gap-1 mt-14">
+      <div className="flex flex-col gap-2">
         {sidebarItems.map((item, index) => (
           <Link
             key={index}
@@ -49,7 +63,12 @@ export default function Sidebar({ className }: { className?: string }) {
             )}
           >
             <div className="flex items-center justify-start h-10 text-small p-2">
-              {item.icon && <item.icon className="mr-2 w-5 h-5" />}
+              {item.href === pathname ? (
+                <item.choosenIcon className="w-5 h-5" />
+              ) : (
+                <item.icon className="w-5 h-5" />
+              )}
+              <Spacer />
               {item.name}
             </div>
           </Link>
