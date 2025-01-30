@@ -11,9 +11,9 @@ export default async function Platform() {
   ]);
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <OnlineTable connectedDevice={connectedDevice.data} />
       <OfflineTable disconnectedDevice={disconnectedDevice.data} />
-    </>
+    </div>
   );
 }
