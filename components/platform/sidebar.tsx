@@ -49,7 +49,7 @@ export default function Sidebar({ className }: { className?: string }) {
         <h1>吳家看門狗</h1>
         <Spacer />
         <Chip size="sm" variant="dot" color="secondary">
-          v0.1.0
+          v0.2.0
         </Chip>
       </div>
       <div className="flex flex-col gap-2">

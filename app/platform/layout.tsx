@@ -2,6 +2,7 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 
 import Sidebar from "@/components/platform/sidebar";
 import PlatformBreadcrumbs from "@/components/platform/breadcrumbs";
+import Menu from "@/components/platform/menu";
 
 export default function PlatformLayout({
   children,
@@ -9,16 +10,19 @@ export default function PlatformLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex">
-      <Sidebar className="fixed inset-y-0 left-0 shadow-sm" />
-      <div className="flex-1 px-4 flex flex-col min-h-screen ml-64 overflow-hidden">
+    <div className="flex min-h-screen">
+      <Sidebar className="shadow-sm fixed top-0 left-0 h-screen w-64 hidden lg:grid" />
+      <div className="px-4 flex flex-col flex-1 overflow-hidden lg:ml-64">
         <nav className="flex items-center justify-between py-6">
-          <PlatformBreadcrumbs />
+          <div className="flex items-center gap-1">
+            <Menu className="lg:hidden" />
+            <PlatformBreadcrumbs />
+          </div>
           <SignedIn>
             <UserButton />
           </SignedIn>
         </nav>
-        <main className="flex-1">{children}</main>
+        <main>{children}</main>
       </div>
     </div>
   );
