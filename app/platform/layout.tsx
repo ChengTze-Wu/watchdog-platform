@@ -10,8 +10,8 @@ export default function PlatformLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen">
-      <Sidebar className="shadow-sm fixed top-0 left-0 h-screen w-64 hidden lg:grid" />
+    <>
+      <Sidebar className="shadow-sm fixed top-0 left-0 h-full w-64 hidden lg:grid" />
       <div className="px-4 flex flex-col flex-1 overflow-hidden lg:ml-64">
         <nav className="flex items-center justify-between py-6">
           <div className="flex items-center gap-1">
@@ -24,6 +24,6 @@ export default function PlatformLayout({
         </nav>
         <main>{children}</main>
       </div>
-    </div>
+    </>
   );
 }
