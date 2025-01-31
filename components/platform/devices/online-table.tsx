@@ -1,4 +1,7 @@
 "use client";
+
+import { useEffect, useState } from "react";
+
 import {
   Table,
   TableHeader,
@@ -6,9 +9,11 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Spinner,
 } from "@heroui/react";
 
 import { ConnectedDevice } from "@/models/devices";
+import { getConnectedDevices } from "@/actions/connected-devices";
 import { getNestedKeyValue } from "@/utils/objects";
 
 const columns = [
@@ -46,21 +51,28 @@ const columns = [
   },
 ];
 
-export default function OnlineTable({
-  connectedDevice,
-}: {
-  connectedDevice: ConnectedDevice[];
-}) {
+export default function OnlineTable() {
+  const [connectedDevice, setConnectedDevice] = useState<ConnectedDevice[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    getConnectedDevices().then((devices) => {
+      setConnectedDevice(devices.data);
+      setLoading(false);
+    });
+  }, []);
+
   return (
-    <Table
-      topContent={<span className="text-default-400 text-small">線上裝置</span>}
-      topContentPlacement="outside"
-      aria-label="Table with dynamic connected devices"
-    >
+    <Table aria-label="Table with dynamic connected devices">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
-      <TableBody items={connectedDevice}>
+      <TableBody
+        items={connectedDevice}
+        isLoading={loading}
+        loadingContent={<Spinner color="default" />}
+      >
         {(item) => (
           <TableRow key={item.device.id}>
             {(columnKey) => (

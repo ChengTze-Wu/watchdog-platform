@@ -1,4 +1,7 @@
 "use client";
+
+import { useEffect, useState } from "react";
+
 import {
   Table,
   TableHeader,
@@ -6,8 +9,10 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Spinner,
 } from "@heroui/react";
 
+import { getDisconnectedDevices } from "@/actions/disconnected-devices";
 import { DisconnectedDevice } from "@/models/devices";
 import { getNestedKeyValue } from "@/utils/objects";
 
@@ -26,35 +31,38 @@ const columns = [
   },
 ];
 
-export default function OfflineTable({
-  disconnectedDevice,
-}: {
-  disconnectedDevice: DisconnectedDevice[];
-}) {
+export default function OfflineTable() {
+  const [disconnectedDevice, setDisconnectedDevice] = useState<
+    DisconnectedDevice[]
+  >([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    getDisconnectedDevices().then((response) => {
+      setDisconnectedDevice(response.data);
+      setLoading(false);
+    });
+  }, []);
+
   return (
-    <>
-      <Table
-        topContent={
-          <span className="text-default-400 text-small">24小時內離線裝置</span>
-        }
-        topContentPlacement="outside"
-        aria-label="Table with dynamic connected devices"
+    <Table aria-label="Table with dynamic connected devices">
+      <TableHeader columns={columns}>
+        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+      </TableHeader>
+      <TableBody
+        items={disconnectedDevice}
+        isLoading={loading}
+        loadingContent={<Spinner color="default" />}
       >
-        <TableHeader columns={columns}>
-          {(column) => (
-            <TableColumn key={column.key}>{column.label}</TableColumn>
-          )}
-        </TableHeader>
-        <TableBody items={disconnectedDevice}>
-          {(item) => (
-            <TableRow key={item.device.id}>
-              {(columnKey) => (
-                <TableCell>{getNestedKeyValue(item, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </>
+        {(item) => (
+          <TableRow key={item.device.id}>
+            {(columnKey) => (
+              <TableCell>{getNestedKeyValue(item, columnKey)}</TableCell>
+            )}
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
   );
 }
