@@ -12,12 +12,14 @@ const WatchDogApiHost =
 export async function getDevices({
   page = "1",
   limit = "10",
+  query = "",
 }: {
   page?: string;
   limit?: string;
+  query?: string;
 }): Promise<DeviceResponse> {
   const response = await fetch(
-    `${WatchDogApiHost}/devices/?page=${page}&limit=${limit}`
+    `${WatchDogApiHost}/devices/?page=${page}&limit=${limit}&q=${query}`
   );
   const jsonResponse = await response.json();
 

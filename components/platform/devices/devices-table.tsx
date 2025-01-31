@@ -6,8 +6,11 @@ import {
   useActionState,
   startTransition,
   useEffect,
+  useState,
+  useMemo,
 } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 
 import {
   Table,
@@ -19,9 +22,19 @@ import {
   Pagination,
   Select,
   SelectItem,
+  SelectedItems,
+  Selection,
   Chip,
+  Input,
+  Spacer,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
 } from "@heroui/react";
-import type { SelectedItems } from "@heroui/react";
+import { FiSearch } from "react-icons/fi";
+import { HiOutlineChevronDown } from "react-icons/hi";
 
 import { setAlert } from "@/actions/devices";
 import EditNicknameModal from "@/components/platform/devices/edit-nickname-modal";
@@ -66,6 +79,15 @@ const columns = [
   },
 ];
 
+const INITIAL_VISIBLE_COLUMNS = [
+  "nickname",
+  "name",
+  "mac_address",
+  "vendor",
+  "alert",
+  "actions",
+];
+
 export default function DevicesTable({
   devicesWithPagination,
   senders,
@@ -77,6 +99,9 @@ export default function DevicesTable({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { showAlert } = useAlert();
+  const [visibleColumns, setVisibleColumns] = useState<Selection>(
+    new Set(INITIAL_VISIBLE_COLUMNS)
+  );
 
   const initialState = { message: "" };
   const [state, formAction, pending] = useActionState(setAlert, initialState);
@@ -85,6 +110,14 @@ export default function DevicesTable({
   const totalItems = devicesWithPagination.pagination.totalItems;
   const totalPages = devicesWithPagination.pagination.totalPages;
   const currentPage = Number(searchParams.get("page")) || 1;
+
+  const headerColumns = useMemo(() => {
+    if (visibleColumns === "all") return columns;
+
+    return columns.filter((column) =>
+      Array.from(visibleColumns).includes(column.key)
+    );
+  }, [visibleColumns]);
 
   const setPage = (page: number) => {
     const params = new URLSearchParams(searchParams);
@@ -104,6 +137,17 @@ export default function DevicesTable({
       params.delete("page");
     } else {
       params.delete("limit");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const setQuery = (query: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (query) {
+      params.set("query", query);
+      params.delete("page");
+    } else {
+      params.delete("query");
     }
     replace(`${pathname}?${params.toString()}`);
   };
@@ -149,24 +193,65 @@ export default function DevicesTable({
     showAlert(config);
   }, [state, pending, showAlert]);
 
+  const onSearchChange = useDebouncedCallback((value: string) => {
+    setQuery(value);
+  }, 300);
+
   const topContent = (
-    <div className="flex justify-between items-center">
-      <span className="text-default-400 text-small">
-        共 {totalItems} 筆裝置
-      </span>
-      <label className="flex items-center text-default-400 text-small">
-        每頁顯示
-        <select
-          className="bg-transparent outline-none text-default-400 text-small"
-          onChange={(e) => setLimit(e.target.value)}
-          value={searchParams.get("limit") || "10"}
-        >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-        </select>
-        筆
-      </label>
+    <div>
+      <div className="flex justify-between gap-3 items-end">
+        <Input
+          isClearable
+          startContent={<FiSearch />}
+          className="w-full sm:max-w-[44%]"
+          aria-label="Search devices"
+          placeholder="搜尋名稱..."
+          onClear={() => setQuery("")}
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
+        <div className="flex gap-3">
+          <Dropdown>
+            <DropdownTrigger>
+              <Button endContent={<HiOutlineChevronDown />} variant="flat">
+                顯示欄位
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label="Table Columns"
+              closeOnSelect={false}
+              selectedKeys={visibleColumns}
+              selectionMode="multiple"
+              onSelectionChange={setVisibleColumns}
+            >
+              {columns.map((column) => (
+                <DropdownItem key={column.key} className="capitalize">
+                  {column.label}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      </div>
+      <Spacer y={4} />
+      <div className="flex justify-between items-center">
+        <span className="text-default-400 text-small">
+          共 {totalItems} 筆裝置
+        </span>
+        <label className="flex items-center text-default-400 text-small">
+          每頁顯示
+          <select
+            className="bg-transparent outline-none text-default-400 text-small"
+            onChange={(e) => setLimit(e.target.value)}
+            value={searchParams.get("limit") || "10"}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+          筆
+        </label>
+      </div>
     </div>
   );
 
@@ -230,7 +315,7 @@ export default function DevicesTable({
       bottomContent={bottomContent}
       bottomContentPlacement="outside"
     >
-      <TableHeader columns={columns}>
+      <TableHeader columns={headerColumns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
       <TableBody items={devices}>

@@ -7,11 +7,12 @@ export default async function Devices(props: {
   searchParams?: Promise<{
     page?: string;
     limit?: string;
+    query?: string;
   }>;
 }) {
-  const { page, limit } = (await props.searchParams) || {};
+  const { page, limit, query } = (await props.searchParams) || {};
 
-  const devicesData = getDevices({ page, limit });
+  const devicesData = getDevices({ page, limit, query });
 
   const [devicesWithPagination, senders] = await Promise.all([
     devicesData,
