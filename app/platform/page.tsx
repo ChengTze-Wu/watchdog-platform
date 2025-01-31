@@ -1,19 +1,14 @@
-import { getConnectedDevices } from "@/actions/connected-devices";
-import { getDisconnectedDevices } from "@/actions/disconnected-devices";
+import { Spacer } from "@heroui/react";
 
-import OnlineTable from "@/components/platform/devices/online-table";
-import OfflineTable from "@/components/platform/devices/offline-table";
+import PlatformTables from "@/components/platform/platform-tables";
+import Dashboard from "@/components/platform/dashboard";
 
 export default async function Platform() {
-  const [connectedDevice, disconnectedDevice] = await Promise.all([
-    getConnectedDevices(),
-    getDisconnectedDevices(),
-  ]);
-
   return (
-    <div className="flex flex-col gap-4">
-      <OnlineTable connectedDevice={connectedDevice.data} />
-      <OfflineTable disconnectedDevice={disconnectedDevice.data} />
+    <div>
+      <Dashboard />
+      <Spacer y={4} />
+      <PlatformTables />
     </div>
   );
 }
