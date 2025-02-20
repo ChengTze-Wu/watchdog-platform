@@ -4,7 +4,6 @@ import { dark } from "@clerk/themes";
 import type { Metadata } from "next";
 
 import { Providers } from "@/app/providers";
-import { AlertProvider } from "@/components/common/flash-alert";
 import "@/app/globals.css";
 
 export const metadata: Metadata = {
@@ -24,11 +23,9 @@ export default function RootLayout({
         baseTheme: dark,
       }}
     >
-      <html lang="zh-Hans" className="dark">
+      <html lang="zh-Hans" className="dark" suppressHydrationWarning>
         <body>
-          <Providers>
-            <AlertProvider>{children}</AlertProvider>
-          </Providers>
+          <Providers>{children}</Providers>
         </body>
       </html>
     </ClerkProvider>
