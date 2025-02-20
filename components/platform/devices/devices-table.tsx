@@ -295,9 +295,7 @@ export default function DevicesTable({
               variant="bordered"
             >
               {(sender) => (
-                <SelectItem key={sender.id} value={sender.id}>
-                  {sender.name}
-                </SelectItem>
+                <SelectItem key={sender.id}>{sender.name}</SelectItem>
               )}
             </Select>
           )
