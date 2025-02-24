@@ -151,21 +151,21 @@ export default function DevicesTable({
     replace(`${pathname}?${params.toString()}`);
   };
 
-  const setAlertHandler = (
-    deviceId: string,
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const senderId = e.target.value;
-    const formData = new FormData();
-    formData.set("deviceId", deviceId);
+  const setAlertHandler = useCallback(
+    (deviceId: string, e: React.ChangeEvent<HTMLSelectElement>) => {
+      const senderId = e.target.value;
+      const formData = new FormData();
+      formData.set("deviceId", deviceId);
 
-    const senders = senderId ? [senderId] : [];
-    formData.set("senders", JSON.stringify(senders));
+      const senders = senderId ? [senderId] : [];
+      formData.set("senders", JSON.stringify(senders));
 
-    startTransition(() => {
-      formAction(formData);
-    });
-  };
+      startTransition(() => {
+        formAction(formData);
+      });
+    },
+    [formAction]
+  );
 
   useEffect(() => {
     if (pending || !state?.message) return;
@@ -190,7 +190,7 @@ export default function DevicesTable({
 
     const config = alertConfig[state.message] || alertConfig.default;
     addToast(config);
-  }, [state, pending, addToast]);
+  }, [state, pending]);
 
   const onSearchChange = useDebouncedCallback((value: string) => {
     setQuery(value);
@@ -268,41 +268,44 @@ export default function DevicesTable({
     </div>
   );
 
-  const renderCell = useCallback((device: Device, columnKey: Key) => {
-    const cellValue = device[columnKey as keyof Device];
+  const renderCell = useCallback(
+    (device: Device, columnKey: Key) => {
+      const cellValue = device[columnKey as keyof Device];
 
-    switch (columnKey) {
-      case "actions":
-        return <EditNicknameModal device={device} />;
-      case "alert":
-        return (
-          senders && (
-            <Select
-              aria-label="Select alert sender"
-              items={senders}
-              className="min-w-24"
-              placeholder="請選擇警報器"
-              onChange={(e) => setAlertHandler(device.id, e)}
-              selectedKeys={device.senders}
-              renderValue={(items: SelectedItems<Sender>) => {
-                return items.map((item) => (
-                  <Chip key={item.key} color="danger" size="sm">
-                    {item.data?.name}
-                  </Chip>
-                ));
-              }}
-              variant="bordered"
-            >
-              {(sender) => (
-                <SelectItem key={sender.id}>{sender.name}</SelectItem>
-              )}
-            </Select>
-          )
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+      switch (columnKey) {
+        case "actions":
+          return <EditNicknameModal device={device} />;
+        case "alert":
+          return (
+            senders && (
+              <Select
+                aria-label="Select alert sender"
+                items={senders}
+                className="min-w-24"
+                placeholder="請選擇警報器"
+                onChange={(e) => setAlertHandler(device.id, e)}
+                selectedKeys={device.senders}
+                renderValue={(items: SelectedItems<Sender>) => {
+                  return items.map((item) => (
+                    <Chip key={item.key} color="danger" size="sm">
+                      {item.data?.name}
+                    </Chip>
+                  ));
+                }}
+                variant="bordered"
+              >
+                {(sender) => (
+                  <SelectItem key={sender.id}>{sender.name}</SelectItem>
+                )}
+              </Select>
+            )
+          );
+        default:
+          return cellValue;
+      }
+    },
+    [senders, setAlertHandler]
+  );
 
   return (
     <Table
