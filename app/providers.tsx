@@ -1,8 +1,7 @@
 "use client";
 
-import { HeroUIProvider } from "@heroui/react";
+import { HeroUIProvider, ToastProvider } from "@heroui/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { AlertProvider } from "@/components/common/flash-alert";
 import { useRouter } from "next/navigation";
 
 declare module "@react-types/shared" {
@@ -18,7 +17,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <HeroUIProvider navigate={router.push}>
       <NextThemesProvider attribute="class" defaultTheme="dark">
-        <AlertProvider>{children}</AlertProvider>
+        <ToastProvider
+          toastProps={{
+            timeout: 1500,
+          }}
+        />
+        {children}
       </NextThemesProvider>
     </HeroUIProvider>
   );

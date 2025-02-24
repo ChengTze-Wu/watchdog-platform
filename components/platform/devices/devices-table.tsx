@@ -32,6 +32,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  addToast,
 } from "@heroui/react";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlineChevronDown } from "react-icons/hi";
@@ -40,7 +41,6 @@ import { setAlert } from "@/actions/devices";
 import EditNicknameModal from "@/components/platform/devices/edit-nickname-modal";
 import { Device, DeviceResponse } from "@/models/devices";
 import { Sender } from "@/models/senders";
-import { useAlert } from "@/components/common/flash-alert";
 
 interface AlertConfig {
   title: string;
@@ -98,7 +98,6 @@ export default function DevicesTable({
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { showAlert } = useAlert();
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
@@ -190,8 +189,8 @@ export default function DevicesTable({
     };
 
     const config = alertConfig[state.message] || alertConfig.default;
-    showAlert(config);
-  }, [state, pending, showAlert]);
+    addToast(config);
+  }, [state, pending, addToast]);
 
   const onSearchChange = useDebouncedCallback((value: string) => {
     setQuery(value);

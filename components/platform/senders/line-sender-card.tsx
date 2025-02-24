@@ -12,13 +12,13 @@ import {
   Divider,
   Button,
   Input,
+  addToast,
 } from "@heroui/react";
 import { FaLine, FaLock, FaLockOpen } from "react-icons/fa6";
 
 import { Sender } from "@/models/senders";
 import { verifySender, updateSender } from "@/actions/senders";
 import CreateSenderModal from "@/components/platform/senders/create-sender-modal";
-import { useAlert } from "@/components/common/flash-alert";
 
 interface AlertConfig {
   title: string;
@@ -32,7 +32,6 @@ interface AlertConfigs {
 
 export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
   const sender = senders?.[0];
-  const { showAlert } = useAlert();
 
   const [lockEdit, setLockEdit] = useState(true);
   const [onlineThreshold, setOnlineThreshold] = useState(
@@ -95,8 +94,8 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
     };
 
     const config = alertConfig[state.message] || alertConfig.default;
-    showAlert(config);
-  }, [state, pending, showAlert]);
+    addToast(config);
+  }, [state, pending, addToast]);
 
   useEffect(() => {
     if (updatePending || !updateState?.message) return;
@@ -115,11 +114,11 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
     };
 
     const config = alertConfig[updateState.message] || alertConfig.default;
-    showAlert(config);
+    addToast(config);
     if (config.color === "success") {
       setLockEdit(true);
     }
-  }, [updateState, updatePending, showAlert]);
+  }, [updateState, updatePending, addToast]);
 
   const SenderContent = () => {
     return (
