@@ -31,7 +31,7 @@ export default function Dashboard() {
   return (
     <Card className="p-2">
       <CardHeader className="flex items-center justify-between">
-        <h2 className="font-semibold">今日連線狀況</h2>
+        <h2 className="font-semibold text-sm">今日連線狀況</h2>
       </CardHeader>
       <CardBody>
         <ResponsiveContainer width="100%" height={180}>
