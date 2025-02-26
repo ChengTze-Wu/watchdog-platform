@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 
 import { Card, CardHeader, CardBody } from "@heroui/react";
+import { useTheme } from "next-themes";
 import { XAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
 
 import { getDailyConnected } from "@/actions/statistics";
@@ -14,6 +15,8 @@ interface BarChartData {
 
 export default function Dashboard() {
   const [data, setData] = useState([] as BarChartData[]);
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
 
   useEffect(() => {
     getDailyConnected().then((response) => {
@@ -53,7 +56,18 @@ export default function Dashboard() {
               }}
               cursor={false}
             />
-            <Bar dataKey="連線數" fill="#8884d8" maxBarSize={20} />
+            <Bar
+              dataKey="連線數"
+              fill="#8884d8"
+              maxBarSize={20}
+              radius={[5, 5, 0, 0]}
+              label={{
+                fill: isDarkMode ? "#fff" : "#000",
+                position: "top",
+                fontSize: 12,
+              }} // 顯示數值標籤
+              animationDuration={500}
+            />
           </BarChart>
         </ResponsiveContainer>
       </CardBody>
