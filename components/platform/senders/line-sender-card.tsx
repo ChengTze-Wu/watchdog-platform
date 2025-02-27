@@ -95,7 +95,7 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
 
     const config = alertConfig[state.message] || alertConfig.default;
     addToast(config);
-  }, [state, pending, addToast]);
+  }, [state, pending]);
 
   useEffect(() => {
     if (updatePending || !updateState?.message) return;
@@ -118,7 +118,7 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
     if (config.color === "success") {
       setLockEdit(true);
     }
-  }, [updateState, updatePending, addToast]);
+  }, [updateState, updatePending]);
 
   const SenderContent = () => {
     return (

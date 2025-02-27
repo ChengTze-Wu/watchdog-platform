@@ -42,6 +42,7 @@ export const sidebarItems = [
 
 export default function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname();
+  const version = process.env.NEXT_PUBLIC_VERSION || "dev";
 
   return (
     <div
@@ -57,7 +58,7 @@ export default function Sidebar({ className }: { className?: string }) {
         <Spacer />
         <Link href="/platform/release-notes" className="flex items-center">
           <Chip size="sm" variant="dot" color="secondary">
-            v0.4.0
+            {version}
           </Chip>
         </Link>
       </div>

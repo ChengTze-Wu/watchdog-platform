@@ -2,14 +2,12 @@ name: "Build and Push Image to Artifact Registry"
 run-name: ${{ github.actor }} - ${{ github.event_name }}
 
 on:
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
+  release:
+    types: [published]
 
 env:
   PROJECT_ID: "chengtze"
+  VERSION: ${{ github.event.release.tag_name }}
   SERVICE_ACCOUNT: ${{ vars.SERVICE_ACCOUNT }}
   WORKLOAD_IDENTITY_PROVIDER: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
   AR_URL: ${{ vars.AR_URL }}
@@ -49,6 +47,7 @@ jobs:
 
       - name: Build Docker Image 🏗️
         run: docker build
+          --build-arg NEXT_PUBLIC_VERSION=${{ env.VERSION }}
           --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
           --build-arg NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ env.NEXT_PUBLIC_CLERK_SIGN_IN_URL }}
           --build-arg NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=${{ env.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL }}
