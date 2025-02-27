@@ -31,6 +31,13 @@ export const sidebarItems = [
     icon: HiOutlineBellAlert,
     choosenIcon: HiBellAlert,
   },
+  {
+    name: "版本資訊",
+    href: "/platform/release-notes",
+    icon: HiOutlineBellAlert,
+    choosenIcon: HiBellAlert,
+    hidden: true,
+  },
 ];
 
 export default function Sidebar({ className }: { className?: string }) {
@@ -49,31 +56,35 @@ export default function Sidebar({ className }: { className?: string }) {
         <Spacer />
         <h1>吳家看門狗</h1>
         <Spacer />
-        <Chip size="sm" variant="dot" color="secondary">
-          {version}
-        </Chip>
+        <Link href="/platform/release-notes" className="flex items-center">
+          <Chip size="sm" variant="dot" color="secondary">
+            {version}
+          </Chip>
+        </Link>
       </div>
       <div className="flex flex-col gap-2">
-        {sidebarItems.map((item, index) => (
-          <Link
-            key={index}
-            href={item.href}
-            className={clsx(
-              "w-full rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors",
-              item.href === pathname && "bg-zinc-200 dark:bg-zinc-800"
-            )}
-          >
-            <div className="flex items-center justify-start h-10 text-small p-2">
-              {item.href === pathname ? (
-                <item.choosenIcon className="w-5 h-5" />
-              ) : (
-                <item.icon className="w-5 h-5" />
+        {sidebarItems.map((item, index) =>
+          item.hidden ? null : (
+            <Link
+              key={index}
+              href={item.href}
+              className={clsx(
+                "w-full rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors",
+                item.href === pathname && "bg-zinc-200 dark:bg-zinc-800"
               )}
-              <Spacer />
-              {item.name}
-            </div>
-          </Link>
-        ))}
+            >
+              <div className="flex items-center justify-start h-10 text-small p-2">
+                {item.href === pathname ? (
+                  <item.choosenIcon className="w-5 h-5" />
+                ) : (
+                  <item.icon className="w-5 h-5" />
+                )}
+                <Spacer />
+                {item.name}
+              </div>
+            </Link>
+          )
+        )}
       </div>
       <SettingModal />
     </div>
