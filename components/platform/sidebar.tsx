@@ -35,6 +35,7 @@ export const sidebarItems = [
 
 export default function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname();
+  const version = process.env.NEXT_PUBLIC_VERSION || "dev";
 
   return (
     <div
@@ -49,7 +50,7 @@ export default function Sidebar({ className }: { className?: string }) {
         <h1>吳家看門狗</h1>
         <Spacer />
         <Chip size="sm" variant="dot" color="secondary">
-          v0.3.1
+          {version}
         </Chip>
       </div>
       <div className="flex flex-col gap-2">
