@@ -147,7 +147,6 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
         <div className="flex flex-col gap-2">
           <NumberInput
             label="上線認定時長（min）"
-            type="text"
             size="sm"
             isDisabled={lockEdit}
             radius="md"
@@ -156,7 +155,6 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
           />
           <NumberInput
             label="離線認定時長（min）"
-            type="text"
             size="sm"
             isDisabled={lockEdit}
             radius="md"
@@ -165,7 +163,6 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
           />
           <NumberInput
             label="發送配額上限（次/月）"
-            type="text"
             size="sm"
             isDisabled={lockEdit}
             radius="md"
