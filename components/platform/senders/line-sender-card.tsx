@@ -11,7 +11,7 @@ import {
   Chip,
   Divider,
   Button,
-  Input,
+  NumberInput,
   addToast,
 } from "@heroui/react";
 import { FaLine, FaLock, FaLockOpen } from "react-icons/fa6";
@@ -35,12 +35,12 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
 
   const [lockEdit, setLockEdit] = useState(true);
   const [onlineThreshold, setOnlineThreshold] = useState(
-    sender?.online_threshold?.toString()
+    sender?.online_threshold
   );
   const [offlineThreshold, setOfflineThreshold] = useState(
-    sender?.offline_threshold?.toString()
+    sender?.offline_threshold
   );
-  const [quota, setQuota] = useState(sender?.quota?.toString());
+  const [quota, setQuota] = useState(sender?.quota);
 
   const initialState = { message: "" };
   const [state, formAction, pending] = useActionState(
@@ -68,9 +68,9 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
 
     const formData = new FormData();
     formData.set("senderId", sender.id);
-    formData.set("onlineThreshold", onlineThreshold || "");
-    formData.set("offlineThreshold", offlineThreshold || "");
-    formData.set("quota", quota || "");
+    formData.set("onlineThreshold", onlineThreshold?.toString() || "");
+    formData.set("offlineThreshold", offlineThreshold?.toString() || "");
+    formData.set("quota", quota?.toString() || "");
 
     startTransition(() => {
       updateAction(formData);
@@ -145,32 +145,32 @@ export default function LineSenderCard({ senders }: { senders?: Sender[] }) {
         </div>
         <Divider className="my-2" />
         <div className="flex flex-col gap-2">
-          <Input
+          <NumberInput
             label="上線認定時長（min）"
             type="text"
             size="sm"
             isDisabled={lockEdit}
             radius="md"
             value={onlineThreshold}
-            onChange={(e) => setOnlineThreshold(e.target.value)}
+            onValueChange={setOnlineThreshold}
           />
-          <Input
+          <NumberInput
             label="離線認定時長（min）"
             type="text"
             size="sm"
             isDisabled={lockEdit}
             radius="md"
             value={offlineThreshold}
-            onChange={(e) => setOfflineThreshold(e.target.value)}
+            onValueChange={setOfflineThreshold}
           />
-          <Input
+          <NumberInput
             label="發送配額上限（次/月）"
             type="text"
             size="sm"
             isDisabled={lockEdit}
             radius="md"
             value={quota}
-            onChange={(e) => setQuota(e.target.value)}
+            onValueChange={setQuota}
           />
         </div>
       </>
