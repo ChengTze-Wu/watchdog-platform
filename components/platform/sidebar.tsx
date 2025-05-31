@@ -45,12 +45,7 @@ export default function Sidebar({ className }: { className?: string }) {
   const version = process.env.NEXT_PUBLIC_VERSION || "dev";
 
   return (
-    <div
-      className={clsx(
-        "grid grid-rows-[auto,1fr,auto] w-64 p-4 border-r dark:border-default-100",
-        className
-      )}
-    >
+    <div className={clsx("grid grid-rows-[auto,1fr,auto] w-64 p-4", className)}>
       <div className="text-lg flex items-center justify-start h-12 p-2 mb-16">
         <FaShieldDog className="w-8 h-8" />
         <Spacer />
