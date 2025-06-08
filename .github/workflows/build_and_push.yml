@@ -45,14 +45,16 @@ jobs:
           password: ${{ steps.auth.outputs.access_token }}
           registry: ${{ env.AR_REPO_LOCATION }}-docker.pkg.dev
 
-      - name: Build Docker Image 🏗️
-        run: docker build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push Multi-Arch Image 🏗️🚀
+        run: docker buildx build
+          --platform linux/amd64,linux/arm64
           --build-arg NEXT_PUBLIC_VERSION=${{ env.VERSION }}
           --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
           --build-arg NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ env.NEXT_PUBLIC_CLERK_SIGN_IN_URL }}
           --build-arg NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=${{ env.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL }}
+          --push
           -t ${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           -t ${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:latest .
-
-      - name: Push to Artifact Registry 🚀
-        run: docker push -a ${{ env.AR_URL }}/${{ env.IMAGE_NAME }}
